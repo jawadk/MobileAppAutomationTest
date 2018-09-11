@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.mytaxi.android_demo.App;
 import com.mytaxi.android_demo.dependencies.component.AppComponent;
 import com.mytaxi.android_demo.utils.storage.SharedPrefStorage;
 
@@ -18,7 +17,7 @@ public class AuthenticatedActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppComponent appComponent = App.getApplicationContext(this).getAppComponent();
+        AppComponent appComponent = MainActivity.App.getApplicationContext(this).getAppComponent();
         appComponent.inject(this);
     }
 

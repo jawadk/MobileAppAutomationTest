@@ -1,5 +1,8 @@
 package com.mytaxi.android_demo.activities;
 
+import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -28,10 +31,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.mytaxi.android_demo.App;
 import com.mytaxi.android_demo.R;
 import com.mytaxi.android_demo.adapters.DriverAdapter;
 import com.mytaxi.android_demo.dependencies.component.AppComponent;
+import com.mytaxi.android_demo.dependencies.component.DaggerAppComponent;
+import com.mytaxi.android_demo.dependencies.module.SharedPrefStorageModule;
 import com.mytaxi.android_demo.models.Driver;
 import com.mytaxi.android_demo.utils.PermissionHelper;
 import com.mytaxi.android_demo.utils.network.HttpClient;
@@ -247,4 +251,30 @@ public class MainActivity extends AuthenticatedActivity
         }
     }
 
+    public static class App extends Application {
+
+        private AppComponent mAppComponent;
+
+        public static App getApplicationContext(Context context) {
+            return (App) context.getApplicationContext();
+        }
+
+        @Override
+        public void onCreate() {
+            super.onCreate();
+            mAppComponent = DaggerAppComponent.builder()
+                    .sharedPrefStorageModule(new SharedPrefStorageModule(getApplicationContext()))
+                    .build();
+        }
+
+        public AppComponent getAppComponent() {
+            return mAppComponent;
+        }
+
+    }
+
+    public void getMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+
+    }
 }
